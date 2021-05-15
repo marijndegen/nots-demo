@@ -21,15 +21,17 @@ headers = {
 
 data = {
   'Input.Email': 'test@test.test',
-  'Input.Password': 'a',
   '__RequestVerificationToken': 'CfDJ8Kpe-Uap5WZLhY3NPreX6A-gHK3PBGbqrp01U2-rqd4H8vgFb_UNqrpDtlLpQC2JoSZUr_HwrNUXXiV4lxokhBSY0N0GJSB1FgWZTmQsDQZYeOKq4ODkNOePYUoIsrnZI0RI3I3ABYa0zjekdrAJmcU',
   'Input.RememberMe': 'false'
 }
 
-response = requests.post('https://localhost:44302/Identity/Account/Login', headers=headers, data=data, verify=False)
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
-
-print(response.url)
-print(response.status_code)
-print(response.headers)
-#print(response.text)
+for x in alphabet:
+    data['Input.Password'] = x
+    response = requests.post('https://localhost:44302/Identity/Account/Login', headers=headers, data=data, verify=False)
+    url_length = len(response.url)
+    last_part = response.url[(url_length - 5):url_length]
+    if last_part != "Login":
+        print("The password is: " + x)
+        break
