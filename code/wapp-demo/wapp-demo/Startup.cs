@@ -52,9 +52,6 @@ namespace wapp_demo
                     options.Lockout.AllowedForNewUsers = false;
                     options.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 7, 30);
                     options.Lockout.MaxFailedAccessAttempts = 3;
-
-                    
-                    
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -64,11 +61,6 @@ namespace wapp_demo
                         options.Filters.Insert(0, new IgnoreAntiforgeryTokenAttribute());
                     }
                 );
-
-
-
-            
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
