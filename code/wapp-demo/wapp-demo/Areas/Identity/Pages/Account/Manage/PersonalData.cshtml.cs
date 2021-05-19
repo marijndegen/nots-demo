@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace wapp_demo.Areas.Identity.Pages.Account.Manage
 {
+    //[Authorize(Policy = "RequireMfa")]
     public class PersonalDataModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -22,6 +26,12 @@ namespace wapp_demo.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
+
+            if (!user.TwoFactorEnabled)
+            {
+                return RedirectToPage("TwoFactorAuthentication");
+            }
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
