@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 
 namespace wapp_demo.Areas.Identity.Pages.Account.Manage
 {
-    //[Authorize(Policy = "RequireMfa")]
     public class PersonalDataModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;

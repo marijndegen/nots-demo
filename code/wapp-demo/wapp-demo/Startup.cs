@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -35,40 +33,6 @@ namespace wapp_demo
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
-            services.ConfigureApplicationCookie(options =>
-               options.Cookie.SecurePolicy =
-                   CookieSecurePolicy.Always);
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme =
-                    CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme =
-                    OpenIdConnectDefaults.AuthenticationScheme;
-            })
-            .AddCookie()
-            .AddOpenIdConnect(options =>
-            {
-                options.SignInScheme =
-                    CookieAuthenticationDefaults.AuthenticationScheme;
-                options.Authority = "https://localhost:44352";
-                options.RequireHttpsMetadata = true;
-                options.ClientId = "AspNetCoreRequireMfaOidc";
-                options.ClientSecret = "AspNetCoreRequireMfaOidcSecret";
-                options.ResponseType = "code id_token";
-                options.Scope.Add("profile");
-                options.Scope.Add("offline_access");
-                options.SaveTokens = true;
-            });
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("RequireMfa", policyIsAdminRequirement =>
-                {
-                    policyIsAdminRequirement.Requirements.Add(new RequireMfa());
-                });
-            });
 
             services.AddDefaultIdentity<IdentityUser>(
                 options => {
